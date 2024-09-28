@@ -34,58 +34,38 @@ def корзина_view(request):
     context = {'title': title, 'text': text, 'text1': text1, 'text4': text4}
     return render(request, 'Корзина.html', context)
 
-
 def sign_up_by_html(request):
     buyers = []
     Buyers = Buyer.objects.all().values()
     for i in range(len(Buyers)):
         buyers.append(Buyers[i]['name'])
-
     info = {}
     if request.method == 'POST':
-        buyer_user = False
         username = request.POST.get('username')
         password = request.POST.get('password')
         repeat_password = request.POST.get('repeat_password')
         age = request.POST.get('age')
         buyer = username in buyers
         if age is None:
-            # Обработайте ситуацию, например, верните сообщение об ошибке или установите значение по умолчанию
+            # Обработка ситуации, вернёт сообщение об ошибке
             return render(request, 'registration_page.html', {'error': 'Age is required'})
-        if password == repeat_password:
-            if int(age) >= 18:
-                if buyer == False:
-                    buyer_user = True
-                    # Buyer.objects.create(name=username, balance=0, age=age)
-                    # print(f'Приветствуем {username}')
-                    # return HttpResponse(f'Приветствуем {username}')
-                else:
-                    info['error'] = 'Пользователь уже существует'
-                    # print(f'Пользователь уже существует')
-                    # return HttpResponse('Пользователь уже существует')
-            else:
-                info['error'] = 'Вы должны быть старше 18 лет'
-                # print(f'Вы должны быть старше 18 лет')
-                # return HttpResponse(f'Вы должны быть старше 18 лет')
-        else:
-            info['error'] = 'Пароли не совпадают'
-            # print(f'Пароли не совпадают')
-            # return HttpResponse('Пароли не совпадают')
-
-        if buyer_user:
-            message = (f'Приветствуем, {username}!')
+        if buyer == False and password == repeat_password and int(age) >= 18:
             Buyer.objects.create(name=username, balance=0, age=age)
-                # print(message)
-                # users2 = Buyer.objects.all().values()
-                # print('Это покупатели', users2)
-        else:
-            message = info['error']
-        return HttpResponse(message)
-    return render(request, 'registration_page.html', info)
-    # context = {'info': info, }
-    # return render(request, 'registration_page.html', context)
+            return HttpResponse(f'Приветствуем {username}')
+        elif buyer == True:
+            info['error'] = 'Пользователь уже существует'
+            return HttpResponse('Пользователь уже существует')
+        elif password != repeat_password:
+            info['error'] = 'Вы должны быть старше 18 лет'
+            return HttpResponse('Пароли не совпадают')
+        elif int(age) < 18:
+            info['error'] = 'Пароли не совпадают'
+            return HttpResponse(f'Вы должны быть старше 18 лет')
+    context = {'info': info}
+    return render(request, 'registration_page.html', context)
 
-# def sign_up_by_html(request):
+
+# def sign_up_by_django(request):
 #     buyers=[]
 #     Buyers = Buyer.objects.all().values()
 #     num = len(Buyers)
@@ -95,31 +75,25 @@ def sign_up_by_html(request):
 #
 #     if request.method == 'POST':
 #         form = UserRegister(request.POST)
-#         username = form.request.POST.get('username')
-#         password = form.request.POST.get('password')
-#         repeat_password = form.request.POST.get('repeat_password')
-#         age = form.request.POST.get('age')
+#         username = form.cleaned_data.POST.get('username')
+#         password = form.cleaned_data.POST.get('password')
+#         repeat_password = form.cleaned_data.POST.get('repeat_password')
+#         age = form.cleaned_data.POST.get('age')
 #         buyer = username in buyers
-#                 if age is None:
-#             # Обработайте ситуацию, например, верните сообщение об ошибке или установите значение по умолчанию
+#         if age is None:
+#             # Обработка ситуации, вернёт сообщение об ошибке
 #             return render(request, 'registration_page.html', {'error': 'Age is required'})
-#         if buyer not in buyers and password == repeat_password and int(age) >= 18:
-#             Buyer.objects.create(name=username, balance='0', age=age)
-#             print(f'Приветствуем {username}')
+#         if buyer == False and password == repeat_password and int(age) >= 18:
+#             Buyer.objects.create(name=username, balance=0, age=age)
 #             return HttpResponse(f'Приветствуем {username}')
-#
-#         elif buyer in buyers:
-#             info['error'] = HttpResponse('Пользователь уже существует')
-#             print(f'Пользователь уже существует')
+#         elif buyer == True:
+#             info['error'] = 'Пользователь уже существует'
 #             return HttpResponse('Пользователь уже существует')
 #         elif password != repeat_password:
-#             info['error'] = HttpResponse('Пароли не совпадают')
-#             print(f'Пароли не совпадают')
+#             info['error'] = 'Вы должны быть старше 18 лет'
 #             return HttpResponse('Пароли не совпадают')
 #         elif int(age) < 18:
-#             info['error'] = HttpResponse(f'Вы должны быть старше 18 лет')
-#             print(f'Вы должны быть старше 18 лет')
+#             info['error'] = 'Пароли не совпадают'
 #             return HttpResponse(f'Вы должны быть старше 18 лет')
-#
-#     context = {'info':info}
+#     context = {'info': info}
 #     return render(request, 'registration_page.html', context)
