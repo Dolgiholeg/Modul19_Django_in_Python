@@ -4,6 +4,7 @@ from .forms import UserRegister
 from django.views.generic import TemplateView
 from .models import *
 
+
 def index(request):
     Buyers = Buyer.objects.all()
     context = {
