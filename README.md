@@ -2,33 +2,45 @@
 
 Cписок QuerySet запросов в порядке вызовов, которые я использовал для внесения изменений в БД.
 
-from task1.models import Buyer
+Windows PowerShell
+(C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены.
 
-Buyer.objects.create(name='Alex', balance='1500', age='25')
+Установите последнюю версию PowerShell для новых функций и улучшения! https://aka.ms/PSWindows
 
-Buyer.objects.create(name='Anna', balance='1200', age='22')
+PS C:\Python proekt\UrbanProekt\Modul19_Django_in_Python> cd DjangoPhyton                 
+PS C:\Python proekt\UrbanProekt\Modul19_Django_in_Python\DjangoPhyton> python manage.py shell
+Python 3.9.0 (tags/v3.9.0:9cf6752, Oct  5 2020, 15:34:40) [MSC v.1927 64 bit (AMD64)] on win32
+Type "help", "copyright", "credits" or "license" for more information.
+(InteractiveConsole)
+>>> from task1.models import Buyer 
+>>> Buyer.objects.create(name='Oleg', balance='2000',age=52)
+<Buyer: Oleg>
+>>> Buyer.objects.create(name='Elena', balance='2550',age=41) 
+<Buyer: Elena>
+>>> Buyer.objects.create(name='Jon', balance='1112.2',age=39)  
+<Buyer: Jon>
+>>> from task1.models import Game
+>>> bob = Game.objects.get(id=1)  
+>>> bob.title = "DOOM"
+>>> bob.save()
+>>> bob.description = 'УЖАСЫ'
+>>> bob.save()
+>>> all_buyer = Buyer.objects.all()
+>>> Buyer.objects.all() 
+<QuerySet [<Buyer: Alex>, <Buyer: Anna>, <Buyer: Tom>, <Buyer: Max>, <Buyer: User>, <Buyer: Vlad>, <Buyer: Vlad>, <Buyer: Vlad>, <Buyer: Vlad>, <Buyer: Vlad>, <Buyer: Oleg>, <Buyer: Elena>, <Buyer: Jon>]>
+>>> person = Buyer.objects.get(id=6)  
+>>> person.delete()
+(1, {'task1.Buyer': 1})
+>>> person = Buyer.objects.get(id=7) 
+>>> person.delete()
+(1, {'task1.Buyer': 1})
+>>> person = Buyer.objects.get(id=8)  
+>>> person.delete()
+(1, {'task1.Buyer': 1})
+>>> person = Buyer.objects.get(id=9) 
+>>> person.delete()
+(1, {'task1.Buyer': 1})
+>>> Buyer.objects.filter(age=22)              
+<QuerySet [<Buyer: Anna>, <Buyer: User>]>
+>>>
 
-Buyer.objects.create(name='Tom', balance='1100', age='17')
-
-Buyer.objects.create(name='Max', balance='1000', age='33')
-
-from task1.models import Game
-
-Game.objects.create(title='S.T.A.L.K.E.R.: Чистое Небо', cost='200', size='25', description='Шутер', age_limited='True')  
-
-Game.objects.create(title='S.T.A.L.K.E.R.: Зов Припяти', cost='300', size='30', description='Шутер', age_limited='False')
-
-Game.objects.create(title='S.T.A.L.K.E.R.2: Сердце Чернобыля', cost='400', size='40', description='Шутер', age_limited='True') 
-
-f = Buyer.objects.get(age__lt=18)
-
-f
-<Buyer: Tom>
-
-first_buyer, second_buyer, fourth_buyer = Buyer.objects.filter(age__gt=18)
-
-Game.objects.get(id=1).buyer.set((1, 2, 3, 4))
-
-Game.objects.get(id=2).buyer.set((1, 2, 4))
-
-Game.objects.get(id=3).buyer.set((1,))

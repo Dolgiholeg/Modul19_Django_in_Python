@@ -97,3 +97,4 @@ def sign_up_by_html(request):
 #             return HttpResponse(f'Вы должны быть старше 18 лет')
 #     context = {'info': info}
 #     return render(request, 'registration_page.html', context)
+
