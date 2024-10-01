@@ -19,3 +19,11 @@ class Game(models.Model):
     def __str__(self):
         return self.title
 
+class Dogs(models.Model):
+    name = models.CharField(max_length=20, verbose_name='Название породы')
+    foto = models.ImageField(upload_to='img/', height_field=500, width_field=700, verbose_name='Картинка')
+    description = models.TextField(verbose_name='Описание породы')
+
+    def __str__(self):
+        return self.name
+

@@ -1,0 +1,43 @@
+<!-- post_list.html -->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Мой сайт - породы собак</title>-->
+<!--</head>-->
+<!--<body>-->
+{% extends 'menu.html' %}-->
+    {%block menu%}
+        <h1>ПОРОДЫ СОБАК</h1>
+    {%endblock%}
+    {% block content %}
+            <ul>
+            {% for data in page_data %}
+                <li>
+                    {{ data.name }} ({{ data.foto }})
+                    <p>{{ post.description }}</p>
+                </li>
+                {% empty %}
+                <p>Нет постов.</p>
+                {% endfor %}
+            </ul>
+         <!-- показываем пагинатор -->
+        <div class="pagination">
+            <p>Страницы:</p>
+            <ul>
+                {% if page_data.has_previous %}
+                    <li><a href="?page=1"><<</a></li>
+                    <li><a href="?page={{ page_data.previous_page_number }}">Предыдущий</a></li>
+                {% endif %}
+                <li>{{ page_data.number }}/{{ paginator.num_pages }}</li>
+                {% if page_data.has_next %}
+                    <li><a href="?page={{ page_data.next_page_number }}">Следующий</a></li>
+                    <li><a href="?page={{ paginator.num_pages }}">>>></a></li>
+                {% endif %}
+            </ul>
+        </div>
+{% endblock %}
+
+
+
+<!--</body>-->
+<!--</html>-->
