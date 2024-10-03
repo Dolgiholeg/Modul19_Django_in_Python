@@ -1,18 +1,9 @@
-# from django.core import paginator
 from django.http import HttpResponse
 from .forms import UserRegister
 from django.views.generic import TemplateView
 from .models import *
 from django.shortcuts import render
-# from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-
-def index(request):
-    Buyers = Buyer.objects.all()
-    context = {
-        'Buyers': Buyers,
-    }
-    return render(request, 'index.html', context)
 
 def главная_view(request):
     title = 'мой сайт начало'
@@ -28,21 +19,6 @@ def магазин_view(request):
     context = {'title': title, 'text': text, 'gamesdict': gamesdict, 'text4': text4}
     return render(request, 'Магазин.html', context)
 
-def собаки_html(request):
-    data = Dogs.objects.all()
-    # paginator = Paginator(data, 10)
-    # page_number = request.GET.get('page')
-    # page_data = paginator.get_page(page_number)
-    return render(request, 'dogs.html', {'data': data})
-# def post_list(request):
-#     page_number = request.GET.get('page')
-#     try:
-#         page_data = paginator.get_page(page_number)
-#     except PageNotAnInteger:
-#         page_data = paginator.page(1)
-#     except EmptyPage:
-#         page_data = paginator.page(paginator.num_pages)
-#     return render(request, 'dogs.html.html', {'page_data': page_data})
 
 
 def корзина_view(request):

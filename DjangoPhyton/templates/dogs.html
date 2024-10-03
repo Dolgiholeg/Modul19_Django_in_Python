@@ -1,20 +1,14 @@
-<!-- post_list.html -->
-<!--<html lang="en">-->
-<!--<head>-->
-<!--    <meta charset="UTF-8">-->
-<!--    <title>Мой сайт - породы собак</title>-->
-<!--</head>-->
-<!--<body>-->
-{% extends 'menu.html' %}-->
+{% extends 'menu.html' %}
     {%block menu%}
         <h1>ПОРОДЫ СОБАК</h1>
     {%endblock%}
     {% block content %}
             <ul>
-            {% for data in page_data %}
+                {% for data in page_data %}
                 <li>
-                    {{ data.name }} ({{ data.foto }})
-                    <p>{{ post.description }}</p>
+                    <h2>{{ data.name }}</h2>
+                    <br><img src="{{ data.foto.url}}" width="500px">
+                    <p>{{ data.description }}</p>
                 </li>
                 {% empty %}
                 <p>Нет постов.</p>
@@ -35,9 +29,9 @@
                 {% endif %}
             </ul>
         </div>
-{% endblock %}
+    {% endblock %}
 
 
 
-<!--</body>-->
-<!--</html>-->
+
+
