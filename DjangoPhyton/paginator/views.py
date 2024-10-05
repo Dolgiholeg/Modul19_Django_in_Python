@@ -7,9 +7,22 @@ from django.shortcuts import render
 
 def собаки_html(request):
     data = Dogs.objects.all()
-    paginator = Paginator(data, 10)
+    posts_per_page = request.GET.get('posts_per_page', 1)
+    try:
+        posts_per_page = int(posts_per_page)
+    except (ValueError, TypeError):
+        posts_per_page = 1
+    paginator = Paginator(data, posts_per_page)
     page_number = request.GET.get('page')
-    page_data = paginator.get_page(page_number)
+    try:
+        # Получаем данные для текущей страницы
+        page_data = paginator.get_page(page_number)
+    except PageNotAnInteger:
+        # Если номер страницы не является числом, возвращаем первую страницу
+        page_data = paginator.page(1)
+    except EmptyPage:
+        # Если номер страницы превышает количество страниц, возвращаем последнюю страницу
+        page_data = paginator.page(paginator.num_pages)
     return render(request, 'dogs.html', {'page_data': page_data})
 
 def post_list(request):
